@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Currency Converter</h1>
+    <div class="container">
+        <div class="data">
+            <h2 class="tittle">Data</h2>
+            <div class="inputs">
+                <div class="indiInp"><p>Amount:</p><input id="amount" class="inp" type="text"></div>
+                <div class="indiInp"><p>currency:</p><input id="currency" class="inp" type="text"></div>
+                <div class="indiInp"><p>convert to:</p><input id="convertTo" class="inp" type="text"></div>
+            </div>
+            <button id="convertbtn" onclick="convert()">Convert</button>
+        </div>
+
+        <div class="result">
+            <h2>Result</h2>
+            <p id="conversed">Converted Amount: 000</p>
+        </div>
+    </div>
+    <h3>Made by: <a href=" https://www.instagram.com/avinashs_07/">Avinash Sakhardande</a></h3>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+        body{
+            
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            
+        }
+        body h1{
+            text-align: center;
+            font-family: "Inter", sans-serif;
+        }
+        .container{
+            height: 80vh;
+            width:155vh;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: row;
+            box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+        }
+        .data , .result{
+            width: 600px;
+            text-align: center;
+            font-size: 20px;
+            
+        }
+        .data , .result h2{
+            font-family: "Inter", sans-serif;
+        }
+        .data{
+            font-family: "Inter", sans-serif;
+            text-align: center;
+            border-right: solid 0.2px;
+        }
+        .indiInp{
+            margin: 0px 0px 20px 50px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .inputs{
+            margin-top: 70px;
+            text-align: center;
+        }
+
+        input{
+            background-color: #fffffff7;
+            height: 30px;
+            border: none;
+            border-radius:5px ;
+            width: 300px;
+            margin-left: auto;
+            border: solid 0.1px;
+            margin-right: auto;
+        }
+
+        button{
+            background-color: #ffc300;
+            
+            font-family: 'Inter';
+            color: white;
+            height: 50px;
+            width: 220px;
+            font-size: 24px;
+            border-radius: 6px;
+            border: solid 0px;
+            font-style: oblique;
+        }
+        button:hover{
+            border: solid black 0.1px;
+            cursor: pointer;
+            background-color: #ffc400f1;
+        
+        }
+        .result {
+         display: flex;
+         flex-direction: column;
+  
+        }
+        .result p{
+         font-size: 30px;  
+         margin-top: 20vh; 
+        }
+        h3{
+            font-family: 'Inter';
+            color: black;
+            position: absolute;
+            bottom: -2%;
+            left: 0%;
+        }
+        h3 a{
+            color: rgb(25, 15, 131);
+        }
+        h3 a:hover{
+            
+            color: rgb(34, 21, 175);
+        }
+    </style>
+    <script> 
+    function convert(){
+        const currency = document.getElementById('currency').value.toUpperCase(); 
+        const convertTo = document.getElementById('convertTo').value.toUpperCase(); 
+        const amount = document.getElementById('amount').value;
+        let conversed = document.getElementById('conversed');
+        let p = fetch(`https://v6.exchangerate-api.com/v6/00f4b87dd09be0b052ade0a6/latest/${currency}`)
+        let rate;
+        p.then((response)=>{
+            if(!response.ok){
+                console.log("Error")
+            }
+            return(response.json())
+        }).then((response) =>{
+            rate = response.conversion_rates[convertTo];
+            if (!rate){
+                conversed.innerText = "Invalid currency code";
+            }
+            else{
+          
+           console.log(rate);
+           conversed.innerText = `Converted amount: ${amount * rate.toFixed(3)}`
+            }
+        }).catch((Error) =>{
+            conversed.innerText = 'Error: Error 404';
+        })
+    
+
+        }
+
+        
+    
+
+    </script>
+</body>
+</html>
